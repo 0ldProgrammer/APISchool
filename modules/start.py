@@ -22,7 +22,10 @@ def IdentityOfMachine(passing_parameter):
         return bool_data
 
 def StartMachinePCT(number_of_machine):
-  
+        '''
+                This function will start the
+                containers and virtual machines. __StartMachinePCT()__.
+        '''
         send_command = ["pct", "start", number_of_machine]
   
         if(type(name_of_machine) != str):
