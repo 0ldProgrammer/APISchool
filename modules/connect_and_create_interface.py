@@ -19,6 +19,8 @@ def get_id_from_db():
         number = str(x)
         id = number.strip("(,)")
         list_users_id.append(id)
+        
+    return list_users_id
 
 def create_interface_vmbr(id):
     with open("/etc/network/interfaces", "r") as conf:
@@ -42,3 +44,6 @@ def create_interface_vmbr(id):
     for i in data:
         i = i.rstrip("\n\r")
         f.write(i + "\n")
+
+    return   
+        
