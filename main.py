@@ -6,6 +6,7 @@ from flask import Flask, request, redirect
 
 from modules import randomID
 from modules import start
+from modules import connect_and_create_interface as interfaces
 
 app = Flask(__name__)
 
@@ -21,8 +22,8 @@ def get_url():
         id_user = request.args.get('user')
 
         if(start.IdentityOfMachine(id_vm) == True):
-            if(id_user not in list_users_id):
-                # Fonction qui monte la carte réseau virtuel dans proxmox
+            if(request.args.get('user') not in interfaces.get_id_from_db()):
+                interfaces.create_interface_vmbr(request.args.get('user'))
                 start.StartMachinePCT(request.args.get('vm')[:3], request.args.get('user'))
             else:
                 start.StartMachinePCT(request.args.get('vm')[:3], request.args.get('user'))
