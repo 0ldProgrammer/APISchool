@@ -1,42 +1,45 @@
 #coding:utf-8
 
 import subprocess
+from random import randint
 
 class IncorrectToStartMachine(Exception):
         def __init__(self, error=None):
                 self.error = error
 
-def IdentityOfMachine(passing_parameter):
+def IdentityOfMachine(identity_machine):
         '''
                 This function tests the
                 value of the function __IdentityOfMachine()__.
         '''
-        if(len(passing_parameter) != 4):
+        if(len(identity_machine) != 4):
                 raise IncorrectToStartMachine("Incorrect to start machine, sorry!")
 
-        if(passing_parameter[4] == "1"):
-                bool_data = True
-        elif(passing_parameter[4] == "2"):
-                bool_data = False
+        if(identity_machine[3] == "1"):
+                bool = True
+        elif(identity_machine[3] == "2"):
+                bool = False
 
-        return bool_data
+        return bool
 
-def StartMachinePCT(number_of_machine):
+def StartMachinePCT(number_of_machine, user_id):
         '''
                 This function will start the
                 containers and virtual machines. __StartMachinePCT()__.
         '''
-        send_command = ["pct", "start", number_of_machine]
-  
-        if(type(name_of_machine) != str):
-                raise IncorrectToStartMachine("Incorrect to start machine, sorry!")
+        random_numbers  = randint(200,900)
 
-        if(IdentityOfMachine(number_of_machine) == True):
-                subprocess.run(send_command)
+        network_setting = f"name=eth0,bridge=vmbr{user_id},ip=dhcp,type=veth"
+        send_command    = [["pct", "clone", str(number_of_machine), str(random_numbers)], ["pct", "set", str(random_numbers), "-net0", network_setting]]
+
+        if(type(number_of_machine) != str):
+                raise IncorrectToStartMachine("Incorrect to start machine, sorry!")
+        for j in send_command:
+                subprocess.run(j)
+        return
 
 def StartMachineQM(number_of_machine):
-        if(type(name_of_machine) != str):
+        if(type(number_of_machine) != str):
                 raise IncorrectToStartMachine("Incorrect to start machine, sorry!")
+        return
 
-if __name__ == "__main__":
-        StartMachinePCT("4")
