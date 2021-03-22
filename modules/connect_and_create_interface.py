@@ -5,6 +5,10 @@ import re
 
 list_users_id = []
 
+class Hello():
+    def __init__(self):
+        pass
+
 def get_id_from_db():
     '''
       We connect to the SQL database
@@ -19,31 +23,32 @@ def get_id_from_db():
         number = str(x)
         id = number.strip("(,)")
         list_users_id.append(id)
-        
+
     return list_users_id
 
-def create_interface_vmbr(id):
-    with open("/etc/network/interfaces", "r") as conf:
-        data = conf.readlines()
+def create_interface_vmbr(id_of_users, new_list=[]):
+    '''
+        This function __create_interface_vmbr()__.
+    '''
+    with open("/etc/network/interfaces", "r") as read_interfaces:
+        read_interfaces = read_interfaces.readlines()
 
-    one = f"auto vmbr{id}\n"
-    one += f"iface vmbr{id} inet manual\n"
-    one += "\tbridge-ports none\n"
-    one += "\tbridge-stp off\n"
-    one += "\tbridge-fd 0\n"
-    one += f"#OPT{id}\n"
+    vmbr_settings =  f"auto vmbr{id_of_users}\n"
+    vmbr_settings += f"iface vmbr{id_of_users} inet manual\n"
+    vmbr_settings += "\tbridge-ports none\n"
+    vmbr_settings += "\tbridge-stp off\n"
+    vmbr_settings += "\tbridge-fd 0\n"
+    vmbr_settings += f"#OPT{id_of_users}\n"
 
-    v = []
+    new_list.append(vmbr_settings)
 
-    temp_list = v.append(one)
-    for j in v:
-        data.append(j)
+    for j in new_list:
+        read_interfaces.append(j)
 
-    f = open("int", "w")
+    file_open_interfaces = open("/etc/network/interfaces", "w")
 
-    for i in data:
-        i = i.rstrip("\n\r")
-        f.write(i + "\n")
+    for write_interfaces in read_interfaces:
+        write_interfaces = write_interfaces.rstrip("\n\r")
+        file_open_interfaces.write(write_interfaces + "\n")
 
-    return   
-        
+    return id_of_users
