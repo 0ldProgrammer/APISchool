@@ -24,9 +24,7 @@ def get_url():
                 if(request.args.get('user') not in interfaces.get_id_from_db()):
                         interfaces.create_interface_vmbr(request.args.get('user'))
                         start.AttributeFirewallQT(request.args.get('user'))
-                        start.StartMachinePCT(request.args.get('vm')[:3], request.args.get('user'))
-                else:
-                        start.StartMachinePCT(request.args.get('vm')[:3], request.args.get('user'))
+                start.StartMachinePCT(request.args.get('vm')[:3], request.args.get('user'))
 
         return ""
 
