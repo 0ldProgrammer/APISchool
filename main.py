@@ -6,7 +6,9 @@ from random import randint
 from flask import Flask, request, redirect
 
 from modules import start
-from modules import connect_and_create_interface as interfaces
+from modules import restore
+from modules import stop
+from modules import machine
 
 app = Flask(__name__)
 WEB_DOMAIN = "www.whs.fr"
@@ -17,13 +19,15 @@ def get_url():
                 In this function, we start and stop and even
                 reset the virtual machines and container. __get_url__().
         '''
-        id_vm   = request.args.get('vm')
-        id_user = request.args.get('user')
+        
+        if(int(machine.IdentityOfMachine(id_vm)) == 1):
+                start.StartMachinePCT(request.args.get('vm')[:3], request.args.get('user'))
 
-        random_numbers = randint(200, 900)
+        elif(int(machine.IdentityOfMachine(id_vm)) == 2):
+                stop.StopMachinePCT(request.args.get('user'))
 
-        if(start.IdentityOfMachine(id_vm) == True):
-                start.StartMachinePCT(request.args.get('vm')[:3], request.args.get('user'), str(random_numbers))
+        elif(int(machine.IdentityOfMachine(id_vm)) == 3):
+                restore.RestoreMachinePCT(request.args.get('user'))
 
         return ""
 
