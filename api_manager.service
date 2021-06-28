@@ -1,0 +1,11 @@
+[Unit]
+Description=API Flask on Python3 to manage VM and LXC container
+After=API-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/python3 /root/APISchool/main.py start &
+
+[Install]
+WantedBy=multi-user.target
