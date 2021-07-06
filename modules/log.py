@@ -8,6 +8,10 @@ from datetime import datetime
 
 def recover_name_of_machine(argument_of_machine):
         """
+                This function will allow us to read the configuration
+                file, and to retrieve the name of the machine.
+
+                Function: __recover_name_of_machine()__
         """
         for j in os.listdir("/etc/pve/nodes"):
                 node_name = j
@@ -18,6 +22,12 @@ def recover_name_of_machine(argument_of_machine):
         return read_conf_file
 
 def log_time(id_of_user, id_of_machine):
+        """
+                This function will create the folder, and configure the necessary
+                things related to the user and the machine by creating a log file.
+
+                Function: __log_time()__
+        """
         path_of_variable = "log/" + str(id_of_user)
         try:
                 os.mkdir(path_of_variable)
@@ -29,5 +39,27 @@ def log_time(id_of_user, id_of_machine):
         with open(update_time, "w") as create_json_file:
                 data = {'information': [{'id_user': str(id_of_user), 'id_machine': id_of_machine,
                         'name_machine': str(recover_name_of_machine(id_of_machine)),
-                        "time_start":str(date_time), 'status':'on'}]}
-                create_json_file.write(json.dumps(data, indent=4))
+                        "time_start":str(date_time), 'status':'on', "time_end":"None"}]}
+                create_json_file.write(json.dumps(data, indent=4, sort_keys=True))
+
+def log_stop(id_of_user):
+        """
+                This function will update the file when the client stops
+                the machine, and update the time and status of the machine.
+
+                Function: __log_stop()__
+        """
+        json_path_file = []
+        for j in os.listdir("log/" + str(id_of_user)):
+                if(j.endswith("json") == True):
+                        json_path_file.append(j)
+
+        date_time   = datetime.now().strftime('%H:%M:%S')
+
+        with open("log/" + str(id_of_user) + "/" + json_path_file[-1], "r") as expend_file:
+                json_object = json.loads(expend_file.read())
+                json_object["information"][0]["status"]   = "off"
+                json_object["information"][0]["time_end"] = str(date_time)
+
+        with open("log/" + str(id_of_user) + "/" + json_path_file[-1], "w") as overwrite_file:
+                overwrite_file.write(json.dumps(json_object, indent=4, sort_keys=True))
