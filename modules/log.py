@@ -28,7 +28,7 @@ def log_time(id_of_user, id_of_machine):
 
                 Function: __log_time()__
         """
-        path_of_variable = "log/" + str(id_of_user)
+        path_of_variable = "/root/APISchool/log/" + str(id_of_user)
         try:
                 os.mkdir(path_of_variable)
         except FileExistsError as exception_error_file_directory:
@@ -42,7 +42,7 @@ def log_time(id_of_user, id_of_machine):
                         "time_start":str(date_time), 'status':'on', "time_end":"None"}]}
                 create_json_file.write(json.dumps(data, indent=4, sort_keys=True))
 
-def log_stop(id_of_user):
+def log_stop(id_of_user, path_file):
         """
                 This function will update the file when the client stops
                 the machine, and update the time and status of the machine.
@@ -50,16 +50,16 @@ def log_stop(id_of_user):
                 Function: __log_stop()__
         """
         json_path_file = []
-        for j in os.listdir("log/" + str(id_of_user)):
+        for j in os.listdir(path_file + str(id_of_user)):
                 if(j.endswith("json") == True):
                         json_path_file.append(j)
 
         date_time   = datetime.now().strftime('%H:%M:%S')
 
-        with open("log/" + str(id_of_user) + "/" + json_path_file[-1], "r") as expend_file:
+        with open(path_file + str(id_of_user) + "/" + json_path_file[-1], "r") as expend_file:
                 json_object = json.loads(expend_file.read())
                 json_object["information"][0]["status"]   = "off"
                 json_object["information"][0]["time_end"] = str(date_time)
 
-        with open("log/" + str(id_of_user) + "/" + json_path_file[-1], "w") as overwrite_file:
+        with open(path_file + str(id_of_user) + "/" + json_path_file[-1], "w") as overwrite_file:
                 overwrite_file.write(json.dumps(json_object, indent=4, sort_keys=True))
