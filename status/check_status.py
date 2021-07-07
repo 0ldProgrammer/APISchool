@@ -3,6 +3,7 @@
 
 import re
 import os
+import sys
 import subprocess
 
 def delete_files_qf(files):
@@ -16,8 +17,10 @@ def delete_files_qf(files):
                         os.remove("/root/APISchool/status/" + files)
 
 def container_check_uptime():
-        for j in os.listdir("/root/APISchool/status"):
+        for j in os.listdir("/root/APISchool/status/"):
                 if(j.endswith(".qf") == True):
+                        sys.path.append('/root/APISchool/modules/')
+                        __import__('log').log_stop(str(j.split('.')[0]), "/root/APISchool/log/")
                         '''
                                 This function detects the time of containers started,
                                 and switched off and removes the container after 6 hours.
@@ -33,7 +36,7 @@ def container_check_uptime():
 
                         print(j_update_uptime)
 
-                        if(int(j_update_uptime) >= 21600):
+                        if(int(j_update_uptime) >= 120):
                                 pct_exec = [["/usr/sbin/pct", "stop", str(f_split)], ["/usr/sbin/pct", "destroy", str(f_split), "--purge", "1"]]
 
                                 for p in pct_exec:
