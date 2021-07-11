@@ -87,4 +87,4 @@ def log_stop(id_of_user, path_file):
         with open(path_file + str(id_of_user) + "/" + json_path_file[-1], "w") as overwrite_file:
                 overwrite_file.write(json.dumps(json_object, indent=4, sort_keys=True))
                 
- 
+           
