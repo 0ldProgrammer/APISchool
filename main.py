@@ -1,8 +1,11 @@
 #!/usr/env/python
 #coding:utf-8
 
+__author__  = ["Selim Eren", "Thomas Poirier"]
+
 import os
 import re
+import sys
 import subprocess
 import time
 import random
@@ -15,6 +18,8 @@ from modules import restore
 from modules import stop
 from modules import machine
 from modules import log
+
+
 
 app = Flask(__name__)
 WEB_DOMAIN = "www.whs.fr"
@@ -38,6 +43,11 @@ def get_url():
                 log.log_stop(str(request.args.get('user')), '/root/APISchool/log/')
                 stop.StopMachinePCT(request.args.get('user'))
 
+        elif(int(machine.IdentityOfMachine(id_vm)) == 3):
+                if(machine.check_machine_list(request.args.get('user')) == 1):
+                        log.log_restore(str(request.args.get('user')), '/root/APISchool/log/')
+                        stop.StopMachinePCT(request.args.get('user'))
+                        start.StartMachinePCT(request.args.get('vm')[:3], request.args.get('user'))
         return ""
 
 @app.route("/sonde", methods=["GET"])
