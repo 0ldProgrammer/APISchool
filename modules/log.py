@@ -79,12 +79,34 @@ def log_stop(id_of_user, path_file):
 
         date_time   = datetime.now().strftime('%H:%M:%S')
 
-        with open(path_file + str(id_of_user) + "/" + json_path_file[-1], "r") as expend_file:
+        with open(path_file + str(id_of_user) + "/" + sorted(json_path_file)[-1], "r") as expend_file:
                 json_object = json.loads(expend_file.read())
                 json_object["information"][0]["status"]   = "off"
                 json_object["information"][0]["time_end"] = str(date_time)
 
-        with open(path_file + str(id_of_user) + "/" + json_path_file[-1], "w") as overwrite_file:
+        with open(path_file + str(id_of_user) + "/" + sorted(json_path_file)[-1], "w") as overwrite_file:
+                overwrite_file.write(json.dumps(json_object, indent=4, sort_keys=True))
+
+def log_restore(id_of_user, path_file):
+        """
+                This function will update the file when the client restores
+                the machine, and update the time and status of the machine.
+
+                Function: __log_restore()__
+        """
+        json_path_file = []
+        for j in os.listdir(path_file + str(id_of_user)):
+                if(j.endswith("json") == True):
+                        json_path_file.append(j)
+
+        date_time   = datetime.now().strftime('%m-%d-%Y-%H-%M-%S')
+
+        with open(path_file + str(id_of_user) + "/" + sorted(json_path_file)[-1], "r") as expend_file:
+                json_object   = json.loads(expend_file.read())
+                update_values = {"restore": date_time}
+                json_object.update(update_vals)
+
+        with open(path_file + str(id_of_user) + "/" + sorted(json_path_file)[-1], "w") as overwrite_file:
                 overwrite_file.write(json.dumps(json_object, indent=4, sort_keys=True))
                 
            
