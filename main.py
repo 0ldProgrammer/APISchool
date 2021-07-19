@@ -1,7 +1,7 @@
 #!/usr/env/python
 #coding:utf-8
 
-__author__  = ["Selim Eren", "Thomas Poirier"]
+__author__  = ["Selim", "Thomas"]
 
 import os
 import re
