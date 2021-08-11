@@ -59,7 +59,7 @@ class ExceptionErrorMySQL(Exception):
 def send_mysql():
         var = update_values()
         for j in var:
-                contact_mysql = mysql.connector.connect(user='wordpress', password='fdd12f34d9996d851cfb793adb4b4ed1', host='127.0.0.1', database='wordpress')
+                contact_mysql = mysql.connector.connect(user='x', password='x', host='x', database='x')
                 send_command = contact_mysql.cursor()
 
                 query_request = ("UPDATE wp_usermeta SET meta_value = '%s' WHERE user_id = '%s' && meta_key = 'wp_capabilities';" %(var[j].decode('utf8'), str(j)))
