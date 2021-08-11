@@ -14,7 +14,8 @@ def check_checkpoint(name_of_argument):
                 return True
         return False
 def update_values():
-        contact_mysql = mysql.connector.connect(user='wordpress', password='fdd12f34d9996d851cfb793adb4b4ed1',                host='127.0.0.1', database='wordpress')
+        contact_mysql = mysql.connector.connect(user='x', password='x', 
+                                                host='x', database='x')
         send_command = contact_mysql.cursor()
         query_request = ("SELECT wp_users.ID, wp_users.user_login, wp_usermeta.meta_value FROM wp_users INNER JOIN wp_usermeta ON wp_users.ID = wp_usermeta.user_id WHERE wp_usermeta.meta_key = 'wp_capabilities';")
         send_command.execute(query_request)
@@ -34,7 +35,7 @@ def update_values():
         return False
 
 def update_values():
-        contact_mysql = mysql.connector.connect(user='wordpress', password='x',
+        contact_mysql = mysql.connector.connect(user='x', password='x',
                 host='x', database='x')
         send_command = contact_mysql.cursor()
         query_request = ("SELECT wp_users.ID, wp_users.user_login, wp_usermeta.meta_value FROM wp_users INNER JOIN wp_usermeta ON wp_users.ID = wp_usermeta.user_id WHERE wp_usermeta.meta_key = 'wp_capabilities';")        send_command.execute(query_request)
